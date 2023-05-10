@@ -1,58 +1,62 @@
-class School {
-    constructor(name, level, numberOfStudents) {
-        this._name = name;
-        this._level = level;
-        this._numberOfStudents = numberOfStudents;
-    }
-    get name() {
-        return this._name;
-    }
-    get level() {
-        return this._level;
-    }
-    get numberOfStudents() {
-        return this._numberOfStudents;
-    }
+const MessageMixer={};
 
-    quickFacts() {
-        console.log(`${this._name} educates ${this._numberOfStudents} students at the ${this._level} school level.`);
+MessageMixer.countCharacter=function(inputString, inputCharacter) {
+  let count = 0;
+  let string = inputString.toLowerCase();
+  let character = inputCharacter.toLowerCase();
+    for (let i = 0; i < string.length; i++) {
+      if (string[i] === character) {
+         count++;
+      }
+    }
+  return count;
+};
 
+MessageMixer.capitalizeFirstCharacterOfWords=function(string) {
+  let arr = string.split(" ");
+    for (let i = 0; i < arr.length; i++) {
+      let word = arr[i];
+        arr[i] = word[0].toUpperCase() + word.substring(1);
     }
-    static pickSubstituteTeacher(substituteTeachers) {
-        const randInt = Math.floor(substituteTeachers.length * Math.random());
-        return substituteTeachers[randInt];
+  return arr.join(" ");
+};
+
+
+MessageMixer.reverseWord=function(word) {
+  return word.split("").reverse().join("");
+};
+
+MessageMixer.reverseAllWords=function(sentence) {
+  let words = sentence.split(" ");
+    for (let i = 0; i < words.length; i++) {
+      words[i] = MessageMixer.reverseWord(words[i]);
     }
-    set numberOfStudents(x) {
-        if (isNaN(x)) {
-            console.log("Invalid input: numberOfStudents must be set to a Number.");
-        } else {
-            this._numberOfStudents = x;
-        }
+   return words.join(" ");
+};
+
+
+MessageMixer.replaceFirstOccurence=function(string, toBeReplaced, replaceWith) {
+  return string.replace(toBeReplaced, replaceWith);
+};
+
+MessageMixer.replaceAllOccurrences=function(string, toBeReplaced, replaceWith) {
+  return string.split(toBeReplaced).join(replaceWith);
+};
+
+MessageMixer.encode=function(string) {
+  let replacementObject = { "a": "@", "s": "$", "i": "!", "o":"0" };
+    for (let key in replacementObject) {
+      string = MessageMixer.replaceAllOccurrences(string, key, replacementObject[key]);
     }
+    return string;
+};
+
+MessageMixer.palindrome = function(str) {
+  return str + ' ' + MessageMixer.reverseWord(str);
 }
 
-class PrimarySchool extends School {
-    constructor(name, numberOfStudents, pickupPolicy) {
-        super(name, 'primary', numberOfStudents);
-        this._pickupPolicy = pickupPolicy;
-    }
-    get pickupPolicy() {
-        return this._pickupPolicy;
-    }
+MessageMixer.pigLatin = function(sentence,character) {
+  return sentence.split(" ").join(character + " ");
 }
 
-class HighSchool extends School {
-    constructor(name, numberOfStudents, sportsTeams) {
-        super(name, 'high', numberOfStudents);
-        this._sportsTeams = sportsTeams;
-    }
-    get sportsTeams() {
-        return this._sportsTeams;
-    }
-}
-
-const lorraineHansbury = new PrimarySchool('Lorraine Hansbury', 514, 'Students must be picked up by a parent, guardian, or a family member over the age of 13.');
-lorraineHansbury.quickFacts();
-const sub = School.pickSubstituteTeacher(['Jamal Crawford', 'Lou Williams', 'J. R. Smith', 'James Harden', 'Jason Terry', 'Manu Ginobli']);
-const alSmith = new HighSchool('Al E. Smith', 123, ['Baseball', 'Basketball', 'Volleyball', 'Track and Field']);
-console.log(alSmith.sportsTeams);
+ module.exports = MessageMixer;
